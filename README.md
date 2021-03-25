@@ -26,39 +26,89 @@ Things you may want to cover:
 ## users table
 | Column             | Type                | Options                 |
 |--------------------|---------------------|-------------------------|
-| email              | string              | null: false             |
-| password           | string              | null: false             |
-| name               | string              | null: false             |
-| street             | string              | null: false             |
+| email              | string              | unique: true            |
+| encrypted_password | string              | null: false             |
+| nickname           | string              | null: false             |
+| last_name          | string              | null: false             |
+| last_name_kana     | string              | null: false             |
+| first_name         | string              | null: false             |
+| first_name_kana    | string              | null: false             |
+| birth_date         | string              | null: false             |
 ### Association
 * has_many :items
-* has_many :purchase
+* has_many :purchases
+<!-- 
+emailカラムには、unique: trueを追加しましょう！
+deviseを導入すると、デフォルトで設定されていますので、READMEにも反映させておきましょう！
+passwordを保存するカラムはencrypted_passwordとしましょう！
+deviseを導入すると、デフォルトで設定されていますので、READMEにも反映させておきましょう！
+usersテーブルに保存する下記カラムが足りないようです。
+見本アプリをご確認いただき、カラム追加をしましょう！
+名字（漢字）Last name
+名前（漢字）First name
+名字（カナ）??
+名前（カナ）??
+誕生日     BirthDate
+
+住所は分ける？そもそもここの項目？
+都道府県     region  
+地域以下住所  address 
+| region             | string              | null: false             |
+| address            | string              | null: false             | 
+-->
 
 
 ## items table
-| Column                              | Type       | Options           |
-|-------------------------------------|------------|-------------------|
-| product                             | string     | null: false       |
-| price                               | string     | null: false       |
-| summary                             | text       | null: false       |
-| user                                | references | foreign_key: true |
+| Column                 | Type       | Options           |
+|------------------------|------------|-------------------|
+| image                  |            | null: false       |
+| product                | string     | null: false       |
+| product_description    | bigint     | null: false       |
+| category               | string     | null: false       |
+| status                 | string     | null: false       |
+| delivery_fee           | string     | null: false       |
+| shipment_street        | string     | null: false       |
+| shipment_Day           | bigint     | null: false       |
+| price                  | bigint     | null: false       |
+| user                   | references | foreign_key: true |
 ### Association
 - belongs_to :user
-- has_many :purchase
+- has_many :purchases
+<!-- 
+| price | string | null: false |
+コン学は、数値で登録できるように、データ型を変更しましょう！
+itemsテーブルにプルダウンから選択するデータを保存するカラムが足りません。
+見本アプリをご確認いただき、カラムを追加しましょう！
+has_manyを使用するときは、対象のテーブル名を複数形にしましょう！ 
+
+画像              image
+品名              product
+説明              product_description
+カテゴリー         category
+商品状態           status
+配送料の負担        delivery_fee
+発送元             shipment_street
+発送までの日数      shipment_Day
+価格              price
+-->
+
 
 
 ## purchase table
 | Column      | Type       | Options           |
 |-------------|------------|-------------------|
 | user        | references | foreign_key: true |
-| items       | references | foreign_key: true |
+| item        | references | foreign_key: true |
 
 ### Association
 - belongs_to :user
-- belongs_to : items
-
-
+- belongs_to : item
 <!-- 
+belongs_toを使用するときは、対象のテーブル名を単数形にしましょう！
+| items | references | foreign_key: true |
+外部キーを取得するカラム名は、単数形にしましょう！
+
+
 ・primary_key：プライマリキー
 ・string：文字列（1〜255文字）
 ・text：長い文字列（1〜4294967296文字）

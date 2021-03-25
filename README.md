@@ -33,7 +33,7 @@ Things you may want to cover:
 | last_name_kana     | string              | null: false             |
 | first_name         | string              | null: false             |
 | first_name_kana    | string              | null: false             |
-| birth_date         | string              | null: false             |
+| birth_date         | date                | null: false             |
 ### Association
 * has_many :items
 * has_many :purchases
@@ -49,37 +49,40 @@ usersテーブルに保存する下記カラムが足りないようです。
 名字（カナ）??
 名前（カナ）??
 誕生日     BirthDate
-
-住所は分ける？そもそもここの項目？
-都道府県     region  
-地域以下住所  address 
-| region             | string              | null: false             |
-| address            | string              | null: false             | 
+| birth_date | string | null: false |
+今回の実装では、誕生日カラムは「date型」で設計した方が実装が簡単になると考えます。（date型は年、月、日を1つで指定して取得できるため）
 -->
 
 
 ## items table
 | Column                 | Type       | Options           |
 |------------------------|------------|-------------------|
-| image                  |            | null: false       |
 | product                | string     | null: false       |
-| product_description    | bigint     | null: false       |
-| category               | string     | null: false       |
-| status                 | string     | null: false       |
-| delivery_fee           | string     | null: false       |
-| shipment_street        | string     | null: false       |
-| shipment_Day           | bigint     | null: false       |
+| product_description    | text       | null: false       |
+| category_id            | integer    | null: false       |
+| status_id              | integer    | null: false       |
+| delivery_fee_id        | integer    | null: false       |
+| shipment_street_id     | integer    | null: false       |
+| shipment_Day_id        | integer    | null: false       |
 | price                  | bigint     | null: false       |
 | user                   | references | foreign_key: true |
 ### Association
 - belongs_to :user
-- has_many :purchases
+- has_one :purchases
 <!-- 
 | price | string | null: false |
 コン学は、数値で登録できるように、データ型を変更しましょう！
 itemsテーブルにプルダウンから選択するデータを保存するカラムが足りません。
 見本アプリをご確認いただき、カラムを追加しましょう！
 has_manyを使用するときは、対象のテーブル名を複数形にしましょう！ 
+| image | | null: false |
+こちらのカラムですが、今回の実装では商品出品の画像投稿において「active_storage」を使用するため、設計の段階から削除しておきましょう。
+（理由はactive_storage導入時に自動でテーブルなどが生成されるからです）
+商品の状態・配送料の負担・発送元の地域・発送までの日数・カテゴリー
+これらのカラムはActiveHashで実装の予定のため、カラム名末尾に_idをつけ、integer型にしておくと、この先実装を進めていく中でエラー発生を避けることができます。
+| product_description | bigint | null: false |
+こちらの商品説明欄は文章を保存させることが想定できますのでtext型にしておきましょう！
+今回の実装では「1つの商品は1つの購入履歴を持っている」という設計にしたいため、has_oneを使用してあげましょう！
 
 画像              image
 品名              product
@@ -99,7 +102,12 @@ has_manyを使用するときは、対象のテーブル名を複数形にしま
 |-------------|------------|-------------------|
 | user        | references | foreign_key: true |
 | item        | references | foreign_key: true |
-
+| postal_code | string     | null: false       |
+| region      | string     | null: false       |
+| city        | string     | null: false       | 
+| address     | string     | null: false       |
+| building    | string     |                   | 
+| phone       | string     | null: false       | 
 ### Association
 - belongs_to :user
 - belongs_to : item
@@ -107,7 +115,15 @@ has_manyを使用するときは、対象のテーブル名を複数形にしま
 belongs_toを使用するときは、対象のテーブル名を単数形にしましょう！
 | items | references | foreign_key: true |
 外部キーを取得するカラム名は、単数形にしましょう！
+配送先を管理するテーブルを作成してみましょう！
+見本アプリの購入画面を参考に作成いただくと実装がスムーズかと思われます。
 
+郵便番号     postal_code
+都道府県     region  
+市区町村     city
+番地        address
+建物        building
+電話番号     phone
 
 ・primary_key：プライマリキー
 ・string：文字列（1〜255文字）

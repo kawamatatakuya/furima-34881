@@ -36,7 +36,7 @@ Things you may want to cover:
 | birth_date         | date                | null: false                 |
 ### Association
 * has_many :items
-- has_one :purchase
+- has_many :purchase
 <!-- 
 emailカラムには、unique: trueを追加しましょう！
 deviseを導入すると、デフォルトで設定されていますので、READMEにも反映させておきましょう！

@@ -34,10 +34,10 @@ Things you may want to cover:
 | first_name         | string              | null: false                 |
 | first_name_kana    | string              | null: false                 |
 | birth_date         | date                | null: false                 |
-| address            | references          | foreign_key: true           |
+<!-- | address            | references          | foreign_key: true           | -->
 ### Association
 * has_many :items
-- has_one :address
+<!-- - has_one :address -->
 <!-- 
 emailカラムには、unique: trueを追加しましょう！
 deviseを導入すると、デフォルトで設定されていますので、READMEにも反映させておきましょう！
@@ -67,9 +67,9 @@ usersテーブルに保存する下記カラムが足りないようです。
 | shipment_day_id        | integer    | null: false       |
 | price                  | integer    | null: false       |
 | user                   | references | foreign_key: true |
-| address                | references | foreign_key: true |
+<!-- | address                | references | foreign_key: true | -->
 ### Association
-- has_one :address
+<!-- - has_one :address -->
 - belongs_to :user
 - has_one :purchases
 
@@ -154,11 +154,11 @@ belongs_toを使用するときは、対象のテーブル名を単数形にし�
 | phone                 | string     | null: false       | 
 | shipment_street_id    | integer    | null: false       | 
 | purchases             | references | foreign_key: true | 
-| user                  | references | foreign_key: true |
-| item                  | references | foreign_key: true | 
+<!-- | user                  | references | foreign_key: true | -->
+<!-- | item                  | references | foreign_key: true |  -->
 ### Association
-- belongs_to :user
-- belongs_to : item
+<!-- - belongs_to :user -->
+<!-- - belongs_to : item -->
 - belongs_to : purchase
 <!-- 
 purchasesテーブルの外部キーを保存するカラムを追加しましょう。

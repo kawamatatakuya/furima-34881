@@ -24,16 +24,17 @@ Things you may want to cover:
 * ... -->
 
 ## users table
-| Column             | Type                | Options                 |
-|--------------------|---------------------|-------------------------|
-| email              | string              | unique: true            |
-| encrypted_password | string              | null: false             |
-| nickname           | string              | null: false             |
-| last_name          | string              | null: false             |
-| last_name_kana     | string              | null: false             |
-| first_name         | string              | null: false             |
-| first_name_kana    | string              | null: false             |
-| birth_date         | date                | null: false             |
+| Column             | Type                | Options                     |
+|--------------------|---------------------|-----------------------------|
+| email              | string              | null: false , unique: true  |
+| encrypted_password | string              | null: false                 |
+| nickname           | string              | null: false                 |
+| last_name          | string              | null: false                 |
+| last_name_kana     | string              | null: false                 |
+| first_name         | string              | null: false                 |
+| first_name_kana    | string              | null: false                 |
+| birth_date         | date                | null: false                 |
+| address            | references          | foreign_key: true           |
 ### Association
 * has_many :items
 - has_one :address
@@ -66,9 +67,17 @@ usersテーブルに保存する下記カラムが足りないようです。
 | shipment_day_id        | integer    | null: false       |
 | price                  | integer    | null: false       |
 | user                   | references | foreign_key: true |
+| address                | references | foreign_key: true |
 ### Association
 - has_one :address
+- belongs_to :user
+- has_one :purchases
+
+
 <!-- 
+usersテーブル、
+purchasesテーブル
+とのアソシエーションをそれぞれ追加しましょう。
 | price | string | null: false |
 コン学は、数値で登録できるように、データ型を変更しましょう！
 itemsテーブルにプルダウンから選択するデータを保存するカラムが足りません。
@@ -100,14 +109,14 @@ purchasesは単数形にしておきましょう！
 
 
 
-## purchase table
+## purchases table
 | Column      | Type       | Options           |
 |-------------|------------|-------------------|
-| user        | references | foreign_key: true |
+| address     | references | foreign_key: true |
 | item        | references | foreign_key: true |
 ### Association
-- belongs_to :user
 - has_one :address
+- belongs_to : item
 <!-- 
 belongs_toを使用するときは、対象のテーブル名を単数形にしましょう！
 | items | references | foreign_key: true |
@@ -137,20 +146,22 @@ belongs_toを使用するときは、対象のテーブル名を単数形にし�
 電話番号     phone
 -->
 
-
-## address table
+## addresses table
 | postal_code           | string     | null: false       |
-| region                | string     | null: false       |
 | city                  | string     | null: false       | 
 | address               | string     | null: false       |
 | building              | string     |                   | 
 | phone                 | string     | null: false       | 
 | shipment_street_id    | integer    | null: false       | 
+| purchases             | references | foreign_key: true | 
+| user                  | references | foreign_key: true |
+| item                  | references | foreign_key: true | 
 ### Association
 - belongs_to :user
-- belongs_to : items
+- belongs_to : item
 - belongs_to : purchase
 <!-- 
+purchasesテーブルの外部キーを保存するカラムを追加しましょう。
 都道府県は住所テーブルにおいてもactive_hashで実装するため、商品テーブルと同じモデルを使い回すことができます。
 こちらもshipment_street_idというカラム名とし、integer型で実装してあげましょう！
 2.住所を管理するテーブル

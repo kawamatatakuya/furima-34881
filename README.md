@@ -34,10 +34,9 @@ Things you may want to cover:
 | first_name         | string              | null: false                 |
 | first_name_kana    | string              | null: false                 |
 | birth_date         | date                | null: false                 |
-<!-- | address            | references          | foreign_key: true           | -->
 ### Association
 * has_many :items
-<!-- - has_one :address -->
+- has_one :purchase
 <!-- 
 emailカラムには、unique: trueを追加しましょう！
 deviseを導入すると、デフォルトで設定されていますので、READMEにも反映させておきましょう！
@@ -71,7 +70,7 @@ usersテーブルに保存する下記カラムが足りないようです。
 ### Association
 <!-- - has_one :address -->
 - belongs_to :user
-- has_one :purchases
+- has_one :purchase
 
 
 <!-- 
@@ -112,12 +111,20 @@ purchasesは単数形にしておきましょう！
 ## purchases table
 | Column      | Type       | Options           |
 |-------------|------------|-------------------|
-| address     | references | foreign_key: true |
+| user        | references | foreign_key: true |
 | item        | references | foreign_key: true |
 ### Association
 - has_one :address
 - belongs_to : item
+- belongs_to : user
 <!-- 
+| address     | references | foreign_key: true |
+こちらのカラムは不要です。
+理由
+purchasesテーブルとaddressesテーブルの場合purchasesテーブルが
+親となるため。外部キーのカラムは1対1のアソシエーションが組まれている場合には
+子テーブルの方に設定します
+
 belongs_toを使用するときは、対象のテーブル名を単数形にしましょう！
 | items | references | foreign_key: true |
 外部キーを取得するカラム名は、単数形にしましょう！
@@ -153,7 +160,7 @@ belongs_toを使用するときは、対象のテーブル名を単数形にし�
 | building              | string     |                   | 
 | phone                 | string     | null: false       | 
 | shipment_street_id    | integer    | null: false       | 
-| purchases             | references | foreign_key: true | 
+| purchase              | references | foreign_key: true | 
 <!-- | user                  | references | foreign_key: true | -->
 <!-- | item                  | references | foreign_key: true |  -->
 ### Association

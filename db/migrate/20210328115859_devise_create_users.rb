@@ -13,29 +13,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.string :first_name_kana,    null: false
       t.date :birth_date,           null: false
 
-# ## users table
-# | Column             | Type                | Options                     |
-# |--------------------|---------------------|-----------------------------|
-# | email              | string              | null: false , unique: true  |
-# | encrypted_password | string              | null: false                 |
-# | nickname           | string              | null: false                 |
-# | last_name          | string              | null: false                 |
-# | last_name_kana     | string              | null: false                 |
-# | first_name         | string              | null: false                 |
-# | first_name_kana    | string              | null: false                 |
-# | birth_date         | date                | null: false                 |
-# ### Association
-# * has_many :items
-# - has_many :purchases
-# rails g migration Add_ToUsers _:string
-# rails g migration AddNicknameToUsers nickname:string
-# rails g migration AddLast_nameToUsers last_name:string
-# rails g migration AddLast_name_kanaToUsers last_name_kana:string
-# rails g migration AddFirst_nameToUsers first_name:string
-# rails g migration AddFirst_name_kanaToUsers first_name_kana:string
-# rails g migration AddBirth_dateToUsers birth_date:date
-
-
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at

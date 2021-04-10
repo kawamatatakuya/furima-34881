@@ -75,18 +75,48 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
+      it 'メールアドレスは、@を含んでいなければ登録できないこと' do
+        @user.email = 'test'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Email is invalid")
+
+      end
+      it 'passwordが英語のみでは登録できないこと' do
+        @user.password = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+      it 'passwordが数字のみでは登録できないこと' do
+        @user.password = '111111'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+      it 'passwordが全角では登録できないこと' do
+        @user.password = 'ｓ１１１１１１'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+      it 'ユーザー本名（苗字）は、全角（漢字・ひらがな・カタカナ）以外では登録できないこと' do
+        @user.last_name = 'tanaka'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last name is invalid")
+      end
+      it 'ユーザー本名（名前）は、全角（漢字・ひらがな・カタカナ）以外では登録できないこと' do
+        @user.first_name = 'tarou'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name is invalid")
+      end
+
+      it 'ユーザー本名のフリガナ（苗字）は、全角（カタカナ）以外では登録できないこと' do
+        @user.last_name_kana = 'たなか'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last name kana is invalid")
+      end
+      it 'ユーザー本名のフリガナ（名前）は、全角（カタカナ）以外では登録できないこと' do
+        @user.first_name_kana = 'たろう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name kana is invalid")
+      end
     end
   end
 end
-
-# ## users table
-# | Column             | Type                | Options                     |
-# |--------------------|---------------------|-----------------------------|
-# | email              | string              | null: false , unique: true  |
-# | encrypted_password | string              | null: false                 |
-# | nickname           | string              | null: false                 |
-# | last_name          | string              | null: false                 |
-# | last_name_kana     | string              | null: false                 |
-# | first_name         | string              | null: false                 |
-# | first_name_kana    | string              | null: false                 |
-# | birth_date         | date                | null: false                 |

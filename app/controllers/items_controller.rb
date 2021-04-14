@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
     before_action :authenticate_user!,  except: [:show, :index]
     before_action :move_to_login, only: [:edit, :update]
-    before_action :set_tweet, only: [:show, :edit, :update]
+    before_action :set_item, only: [:show, :edit, :update]
 
     def index
       @items = Item.all
@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
       end
     end
 
-    def set_tweet
+    def set_item
       @item = Item.find(params[:id])
     end
 end

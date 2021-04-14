@@ -1,7 +1,8 @@
 class ItemsController < ApplicationController
     before_action :authenticate_user!,  except: [:show, :index]
-    before_action :move_to_login,  except: [:show, :index]
-    
+    before_action :move_to_login, only: [:edit, :update]
+    before_action :set_tweet, only: [:show, :edit, :update]
+
     def index
       @items = Item.all
     end
@@ -47,5 +48,9 @@ class ItemsController < ApplicationController
       if current_user.id != @item.user_id
         redirect_to root_path
       end
+    end
+
+    def set_tweet
+      @item = Item.find(params[:id])
     end
 end

@@ -15,5 +15,11 @@ class Item < ApplicationRecord
     has_one_attached :image
     belongs_to :user
     has_one :purchase
+    
+    extend ActiveHash::Associations::ActiveRecordExtensions
+    belongs_to :category
+    belongs_to :status
+    belongs_to :delivery_fee
+    belongs_to :shipment_street
+    belongs_to :shipment_day
 end
-# , format: { with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i }

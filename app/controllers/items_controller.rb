@@ -23,8 +23,8 @@ class ItemsController < ApplicationController
       # @item = Item.find(item_params)
     end
 
-    def edit
-    end
+    # def edit
+    # end
 
     private
 

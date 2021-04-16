@@ -15,8 +15,12 @@ RSpec.describe OrdersAddress, type: :model do
         expect(@orders_address).to be_valid
       end
       it '建物名が抜けていても登録できること' do
-        expect(@orders_address).to be_valid
         @orders_address.building = ""
+        expect(@orders_address).to be_valid
+      end
+      it '電話番号が11桁未満でも登録できる' do
+        @orders_address.phone = "1111111111"
+        expect(@orders_address).to be_valid
       end
     end
     context '購入できないとき' do
@@ -55,15 +59,10 @@ RSpec.describe OrdersAddress, type: :model do
         @orders_address.valid?
         expect(@orders_address.errors.full_messages).to include("Phone can't be blank")
       end
-      it '電話番号が11桁未満では登録できない' do
-        @orders_address.phone = "1111111111"
-        @orders_address.valid?
-        expect(@orders_address.errors.full_messages).to include("Phone is invalid")
-      end
       it '電話番号が12桁以上では登録できない' do
         @orders_address.phone = "111111111111"
         @orders_address.valid?
-        expect(@orders_address.errors.full_messages).to include("Phone is invalid")
+        expect(@orders_address.errors.full_messages).to include("Phone is too long (maximum is 11 characters)")
       end
       it '電話番号が全角数字では登録できない' do
         @orders_address.phone = "１１１１１１１１１１１"

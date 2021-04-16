@@ -5,7 +5,6 @@ class ItemsController < ApplicationController
 
     def index
       @items = Item.all
-      @purchase = Purchase.all
     end
 
     def new
@@ -22,8 +21,6 @@ class ItemsController < ApplicationController
     end
 
     def show
-      @item = Item.find(params[:id])
-      @purchase = Purchase.find(params[:id])
     end
 
     def edit

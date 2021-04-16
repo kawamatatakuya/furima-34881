@@ -7,7 +7,7 @@ class OrdersAddress
         validates :city
         validates :address
         validates :phone,       format: { with: /\A[0-9]+\z/ }, length: { maximum: 11 }
-        validates :shipment_street_id
+        validates :shipment_street_id, numericality: { other_than: 1 }
         validates :user_id
         validates :item_id
         validates :token

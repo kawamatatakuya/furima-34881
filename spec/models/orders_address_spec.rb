@@ -84,6 +84,11 @@ RSpec.describe OrdersAddress, type: :model do
         @orders_address.valid?
         expect(@orders_address.errors.full_messages).to include("Item can't be blank")
       end
+      it '都道府県が選択されていない場合は登録できない' do
+        @orders_address.shipment_street_id = 1
+        @orders_address.valid?
+        expect(@orders_address.errors.full_messages).to include("Shipment street must be other than 1")
+      end
     end
   end
 end

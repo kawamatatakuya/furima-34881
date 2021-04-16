@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
     before_action :move_to_top, only: [:index, :create]
     
     def index
-        @address = OrdersAddress.new
+        @ordersaddress = OrdersAddress.new
     end
 
     def create
@@ -35,6 +35,10 @@ class OrdersController < ApplicationController
 
     def move_to_top
         if current_user.id == @item.user_id
+          redirect_to root_path
+        end
+
+        if @item.purchase.present?
           redirect_to root_path
         end
     end

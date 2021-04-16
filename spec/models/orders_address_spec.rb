@@ -3,11 +3,9 @@ require 'rails_helper'
 RSpec.describe OrdersAddress, type: :model do
  
   before do
-   
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
-    # binding.pry
-    @orders_address = FactoryBot.build(:orders_address,user_id: @user.id, item_id: @item.id)
+    @orders_address = FactoryBot.build(:orders_address, user_id: @user.id, item_id: @item.id)
     sleep (0.5)
   end
 
@@ -15,6 +13,10 @@ RSpec.describe OrdersAddress, type: :model do
     context '購入できる時' do
       it '住所とtokenが正しく入力されていれば購入できる' do
         expect(@orders_address).to be_valid
+      end
+      it '建物名が抜けていても登録できること' do
+        expect(@orders_address).to be_valid
+        @orders_address.building = ""
       end
     end
     context '購入できないとき' do
@@ -72,6 +74,16 @@ RSpec.describe OrdersAddress, type: :model do
         @orders_address.token = ""
         @orders_address.valid?
         expect(@orders_address.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'user_idが空だと登録できない' do
+        @orders_address.user_id = ""
+        @orders_address.valid?
+        expect(@orders_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空だと登録できない' do
+        @orders_address.item_id = ""
+        @orders_address.valid?
+        expect(@orders_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end

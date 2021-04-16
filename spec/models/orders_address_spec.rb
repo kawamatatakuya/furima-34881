@@ -89,6 +89,11 @@ RSpec.describe OrdersAddress, type: :model do
         @orders_address.valid?
         expect(@orders_address.errors.full_messages).to include("Shipment street must be other than 1")
       end
+      it '電話番号は英数混合では登録できないこと' do
+        @orders_address.phone = "a1111111111"
+        @orders_address.valid?
+        expect(@orders_address.errors.full_messages).to include("Phone is invalid")
+      end
     end
   end
 end
